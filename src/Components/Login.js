@@ -23,7 +23,7 @@ const Login = () => {
     const isValidEmail = emailRegex.test(value);
 
     setUserPassword(value);
-    setIsValidEmail(isValidEmail);
+    setIsValidPassword(isValidEmail);
   };
 
   const handleEmailChange = (event) => {
@@ -33,7 +33,7 @@ const Login = () => {
     const isValidEmail = emailRegex.test(value);
 
     setUserEmail(value);
-    setIsValidPassword(isValidEmail);
+    setIsValidEmail(isValidEmail);
   };
   const handleSubmitClick = () => {
     debugger;
