@@ -7,12 +7,10 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { checkValidData } from "../utils/validate";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userslice";
 const Login = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [issignInForm, setIsSignInForm] = useState(true);
 
   const [emailError, setEmailError] = useState("");
@@ -112,7 +110,6 @@ const Login = () => {
                     photoURL: photoURL,
                   })
                 );
-                navigate("/Browse");
               })
               .catch((error) => {});
           })
@@ -127,7 +124,6 @@ const Login = () => {
             // Signed in
             const user = userCredential.user;
             console.log("the user is:", user);
-            navigate("/browse");
           })
           .catch((error) => {
             const errorCode = error.code;
