@@ -4,9 +4,15 @@ import { auth } from "../utils/firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { checkValidData } from "../utils/validate";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userslice";
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [issignInForm, setIsSignInForm] = useState(true);
 
   const [emailError, setEmailError] = useState("");
@@ -72,15 +78,14 @@ const Login = () => {
 
   useEffect(() => {
     if (
-      userPassword!="" &&
-      userEmail!="" &&
+      userPassword != "" &&
+      userEmail != "" &&
       emailError === "" &&
       passwordError === ""
     ) {
       setIsLoggdIn(true);
     }
   }, [userPassword, userEmail, emailError, passwordError]);
-
 
   const handleSubmitClick = () => {
     debugger;
@@ -91,6 +96,25 @@ const Login = () => {
             // Signed up
             const user = userCredential.user;
             console.log(user);
+
+            updateProfile(user, {
+              displayName: "Shreyash Bongulwar",
+              photoURL:
+                "https://media.licdn.com/dms/image/D4D35AQHEUpUg60bBKg/profile-framedphoto-shrink_400_400/0/1690708887581?e=1711263600&v=beta&t=mlhUmfLdcUg3ZYOSD6gBkhVDQdHu8V0FpEiPa1m2Znw",
+            })
+              .then(() => {
+                const { uid, email, displayName, photoURL } = auth.currentUser;
+                dispatch(
+                  addUser({
+                    uid: uid,
+                    email: email,
+                    displayName: displayName,
+                    photoURL: photoURL,
+                  })
+                );
+                navigate("/Browse");
+              })
+              .catch((error) => {});
           })
           .catch((error) => {
             const errorCode = error.code;
@@ -103,6 +127,7 @@ const Login = () => {
             // Signed in
             const user = userCredential.user;
             console.log("the user is:", user);
+            navigate("/browse");
           })
           .catch((error) => {
             const errorCode = error.code;
