@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { addUser, removeUser } from "../utils/userslice";
+import { Netflixlogo, UserAvatar } from "../utils/constants";
 const Header = () => {
   const dispatch = useDispatch();
 
@@ -13,7 +14,7 @@ const Header = () => {
   const user = useSelector((store) => store.user);
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       //sign in case
       if (user) {
         const { uid, email, displayName, photoURL } = user;
@@ -33,6 +34,8 @@ const Header = () => {
         navigate("/")
       }
     });
+
+    return () => unsubscribe();
   }, []);
 
   const handleSignOut = () => {
@@ -47,7 +50,7 @@ const Header = () => {
     <div className="absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 flex justify-between">
       <img
         className="w-40"
-        src="https://cdn.cookielaw.org/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
+        src={Netflixlogo}
         alt="logo"
       />
       {user && (
@@ -55,7 +58,7 @@ const Header = () => {
           <img
             className="w-10"
             //src={user.photoURL}
-            src="https://media.licdn.com/dms/image/C4D03AQECLBTVEFrGwg/profile-displayphoto-shrink_800_800/0/1623923012087?e=1716422400&v=beta&t=vWE4BZkMb-eq8Ex9gaD3kxIvPBBwDgIat-gDjCR7jBw"
+            src={UserAvatar}
             alt="logo"
           />
           <button className="font-bold text-white" onClick={handleSignOut}>
