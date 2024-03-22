@@ -1,4 +1,4 @@
-import {React,useEffect} from "react";
+import { React, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
@@ -7,6 +7,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { addUser, removeUser } from "../utils/userslice";
 import { Netflixlogo, UserAvatar } from "../utils/constants";
+import { toggleGptSearchView } from "../utils/gptSlice";
 const Header = () => {
   const dispatch = useDispatch();
 
@@ -26,12 +27,12 @@ const Header = () => {
             photoURL: photoURL,
           })
         );
-        navigate("/browse")
+        navigate("/browse");
       }
       //sign out case
       else {
         dispatch(removeUser());
-        navigate("/")
+        navigate("/");
       }
     });
 
@@ -40,21 +41,23 @@ const Header = () => {
 
   const handleSignOut = () => {
     signOut(auth)
-      .then(() => {
-      })
+      .then(() => {})
       .catch((error) => {
         navigate("/error");
       });
   };
+
+  const handleGptSearchClick =()=>{
+    dispatch(toggleGptSearchView())
+  }
   return (
     <div className="absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 flex justify-between">
-      <img
-        className="w-40"
-        src={Netflixlogo}
-        alt="logo"
-      />
+      <img className="w-40" src={Netflixlogo} alt="logo" />
       {user && (
         <div className="mt-3 flex p-2 gap-4">
+          <button onClick={handleGptSearchClick} className="bg-gray-400 text-white px-8 ml-3 p-2 rounded-lg bg-opacity-50 hover:bg-opacity-80">
+            GPT Search
+          </button>
           <img
             className="w-10"
             //src={user.photoURL}
