@@ -6,13 +6,19 @@ import { useSelector } from "react-redux";
 import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { addUser, removeUser } from "../utils/userslice";
-import { Netflixlogo, UserAvatar } from "../utils/constants";
+import {
+  Netflixlogo,
+  UserAvatar,
+  supported_anguages,
+} from "../utils/constants";
 import { toggleGptSearchView } from "../utils/gptSlice";
+import { changeLanguage } from "../utils/configSlice";
 const Header = () => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
   const user = useSelector((store) => store.user);
+  const showGptSearch = useSelector((store)=>store.gpt.showGptSearch)
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -47,16 +53,38 @@ const Header = () => {
       });
   };
 
-  const handleGptSearchClick =()=>{
-    dispatch(toggleGptSearchView())
-  }
+  const handleGptSearchClick = () => {
+    dispatch(toggleGptSearchView());
+  };
+
+  const handleLanguageChange = (e) => {
+    console.log(e.target.value);
+    dispatch(changeLanguage(e.target.value));
+  };
   return (
     <div className="absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 flex justify-between">
       <img className="w-40" src={Netflixlogo} alt="logo" />
       {user && (
         <div className="mt-3 flex p-2 gap-4">
-          <button onClick={handleGptSearchClick} className="bg-gray-400 text-white px-8 ml-3 p-2 rounded-lg bg-opacity-50 hover:bg-opacity-80">
-            GPT Search
+          { showGptSearch && <select
+            className="bg-gray-400 text-white px-8 ml-3 p-2 rounded-lg bg-opacity-50 hover:bg-opacity-80"
+            onChange={handleLanguageChange}
+          >
+            {supported_anguages.map((lang) => (
+              <option
+                className="bg-grey-900 text-black"
+                key={lang.identifier}
+                value={lang.identifier}
+              >
+                {lang.name}
+              </option>
+            ))}
+          </select>}
+          <button
+            onClick={handleGptSearchClick}
+            className="bg-gray-400 text-white px-8 ml-3 p-2 rounded-lg bg-opacity-50 hover:bg-opacity-80"
+          >
+            {showGptSearch?"Home Page":"GPT Search"}
           </button>
           <img
             className="w-10"
