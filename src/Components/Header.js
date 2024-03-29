@@ -62,10 +62,10 @@ const Header = () => {
     dispatch(changeLanguage(e.target.value));
   };
   return (
-    <div className="absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 flex justify-between">
-      <img className="w-40" src={Netflixlogo} alt="logo" />
+    <div className="absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 flex flex-col md:flex-row justify-between">
+      <img className="w-40 mx-auto md:mx-0" src={Netflixlogo} alt="logo" />
       {user && (
-        <div className="mt-3 flex p-2 gap-4">
+        <div className="mt-3 flex p-2 gap-4 justify-between">
           { showGptSearch && <select
             className="bg-gray-400 text-white px-8 ml-3 p-2 rounded-lg bg-opacity-50 hover:bg-opacity-80"
             onChange={handleLanguageChange}
@@ -87,7 +87,7 @@ const Header = () => {
             {showGptSearch?"Home Page":"GPT Search"}
           </button>
           <img
-            className="w-10"
+            className="md:w-10 hidden md:block" 
             //src={user.photoURL}
             src={UserAvatar}
             alt="logo"

@@ -13,20 +13,17 @@ const GptSearchBar = () => {
     e.preventDefault();
     //make an api call to egt results
     const gptQuery = "Act as a movie recomendation system and suggest exact 5 movie names only for the query :"+searchText.current.value+" .  give me comma seperated movies name ";
-
     const GptResults = await openai.chat.completions.create({
       messages: [{ role: 'user', content: searchText.current.value }],
       model: 'gpt-3.5-turbo',
     });
-
     console.log("movie result is:",GptResults.choices)
-
     const gptMovies =GptResults.choices?.[0]?.message?.content.split(",")
   };
   return (
-    <div className="pt-[5%] flex justify-center">
+    <div className="pt-[30%] md:pt-[5%] flex justify-center">
       <form
-        className="w-1/2 bg-black grid grid-cols-12"
+        className="w-full m-4 md:m-0 md:w-1/2 bg-black grid grid-cols-12"
         onSubmit={(e) => e.preventDefault}
       >
         <input

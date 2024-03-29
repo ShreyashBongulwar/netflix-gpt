@@ -87,7 +87,6 @@ const Login = () => {
   }, [userPassword, userEmail, emailError, passwordError]);
 
   const handleSubmitClick = () => {
-    debugger;
     if (isLoggedIn) {
       if (issignInForm) {
         createUserWithEmailAndPassword(auth, userEmail, userPassword)
@@ -139,50 +138,53 @@ const Login = () => {
       <Header />
       <div className="absolute">
         <img
+          className="h-screen object-cover md:h-[100%]"
           src={bg_img_url}
           alt="logo"
         />
       </div>
-      <form
-        onSubmit={(e) => e.preventDefault()}
-        className="w-3/12 absolute p-12 bg-black my-36 mx-auto right-0 left-0 text-white bg-opacity-85 rounded-lg"
-      >
-        <h1 className="font-bold text-3xl py-3">
-          {issignInForm ? "Sign In" : "Sign Up"}
-        </h1>
-        {!issignInForm && (
+      <div>
+        <form
+          onSubmit={(e) => e.preventDefault()}
+          className="w-full md:w-3/12 absolute p-12 bg-black my-36 mx-auto right-0 left-0 text-white bg-opacity-85 rounded-lg"
+        >
+          <h1 className="font-bold text-3xl py-3">
+            {issignInForm ? "Sign In" : "Sign Up"}
+          </h1>
+          {!issignInForm && (
+            <input
+              type="text"
+              placeholder="Name"
+              className="p-3 my-3 w-full bg-gray-600 "
+            />
+          )}
           <input
             type="text"
-            placeholder="Name"
+            placeholder="Email Address"
             className="p-3 my-3 w-full bg-gray-600 "
+            onChange={handleEmailChange}
           />
-        )}
-        <input
-          type="text"
-          placeholder="Email Address"
-          className="p-3 my-3 w-full bg-gray-600 "
-          onChange={handleEmailChange}
-        />
-        {<p className="text-red-600">{emailError}</p>}
-        <input
-          type="password"
-          placeholder="Enter Password"
-          className="p-3 my-3 w-full bg-gray-600 "
-          onChange={handlePasswordChange}
-        />
-        {<p className="text-red-600">{passwordError}</p>}
-        <button
-          className="p-3 my-3 bg-red-600 w-full rounded-lg"
-          onClick={handleSubmitClick()}
-        >
-          {issignInForm ? "Sign In" : "Sign Up"}
-        </button>
-        <p className="py-2 cursor-pointer" onClick={toggleSignInForm}>
-          {issignInForm
-            ? "New to Netflix? Sign Up Now"
-            : "Already a User? Sign In Now"}
-        </p>
-      </form>
+          {<p className="text-red-600">{emailError}</p>}
+          <input
+            type="password"
+            placeholder="Enter Password"
+            className="p-3 my-3 w-full bg-gray-600 "
+            onChange={handlePasswordChange}
+          />
+          {<p className="text-red-600">{passwordError}</p>}
+          <button
+            className="p-3 my-3 bg-red-600 w-full rounded-lg"
+            onClick={handleSubmitClick()}
+          >
+            {issignInForm ? "Sign In" : "Sign Up"}
+          </button>
+          <p className="py-2 cursor-pointer" onClick={toggleSignInForm}>
+            {issignInForm
+              ? "New to Netflix? Sign Up Now"
+              : "Already a User? Sign In Now"}
+          </p>
+        </form>
+      </div>
     </div>
   );
 };
